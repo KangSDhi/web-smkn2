@@ -1,0 +1,29 @@
+name: web-smkn2
+
+services:
+  db:
+    image: mariadb:10.7.8
+    container_name: web-smkn2-db
+
+    ports:
+      - 3301:3306
+    
+    environment:
+      MARIADB_ROOT_PASSWORD: 'toor'
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    
+    volumes:
+      - web-smkn2-data:/var/lib/mysql
+    
+    networks:
+      - web-smkn2-net
+
+volumes:
+  web-smkn2-data:
+    driver: local
+
+networks:
+  web-smkn2-net:
+    driver: bridge
