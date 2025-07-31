@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AdminSeeder extends Seeder
+class AuthorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,10 +15,10 @@ class AdminSeeder extends Seeder
     {
         $data = array(
             array(
-                'name' => 'Sigit Boworaharjo',
-                'email' => 'kangadmin@gmail.com',
+                'name' => 'Sigit Author',
+                'email' => 'kangauthor@gmail.com',
                 'password' => bcrypt('ddhh1nn1'),
-                'role_user'   => 'admin'
+                'role_user'   => 'author'
             )
         );
 

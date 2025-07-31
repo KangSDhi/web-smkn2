@@ -93,6 +93,14 @@ export default {
                 try {
                     const response = await promise;
                     console.log(response);
+                    localStorage.setItem("jwt", response.data.data.token);
+                    localStorage.setItem("nama_user", response.data.data.user.name);
+                    if (response.data.data.user.role_user == "admin") {
+                        console.log("admin");
+                    } else if (response.data.data.user.role_user == "author") {
+                        console.log("author");
+                        this.$router.push({ name: "Dashboard Author" });
+                    }
                 } catch ({ response }) {
                     // console.error(response);
                     const errorMessages = response.data.errors;

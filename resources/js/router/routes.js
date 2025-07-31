@@ -1,5 +1,6 @@
 import HomePage from "../views/general/Home.vue";
 import AuthPage from "../views/auth/Auth.vue";
+import DashboardAuthor from "../views/author/Dashboard.vue";
 
 const routes = [
     {
@@ -17,6 +18,19 @@ const routes = [
         meta: {
             title: "Halaman Login"
         }
+    },
+    {
+        path: "/author/",
+        children: [
+            {
+                path: "dashboard",
+                name: "Dashboard Author",
+                component: DashboardAuthor,
+                meta: {
+                    title: "Halaman Dashboard Author"
+                }
+            }
+        ]
     }
 ];
 
