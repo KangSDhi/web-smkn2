@@ -12,6 +12,15 @@
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    
+                    <div class="m-4">
+                        <h1 class="text-4xl text-black font-bold underline">Visi</h1>
+                    </div>
+                    <div>
+                        <p class="text-4xl text-black italic">
+                           “ Terwujudnya lulusan yang beriman dan bertakwa kepada Tuhan Yang Maha Esa, berakhlak mulia, berbudaya kerja, berjiwa wirausaha dan kompetitif ”
+                        </p>
+                    </div>
                 </div>
                 <div class="p-8">
                     <h4 class="text-2xl text-black font-bold">Berita Terbaru</h4>
