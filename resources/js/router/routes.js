@@ -1,6 +1,7 @@
 import HomePage from "../views/general/Home.vue";
 import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
+import AddPostAuthor from "../views/author/posts/AddPost.vue";
 
 const routes = [
     {
@@ -28,6 +29,14 @@ const routes = [
                 component: DashboardAuthor,
                 meta: {
                     title: "Halaman Dashboard Author"
+                }
+            },
+            {
+                path: "post/add",
+                name: "Add Post Author",
+                component: AddPostAuthor,
+                meta: {
+                    title: "Halaman Post Author"
                 }
             }
         ]
