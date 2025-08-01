@@ -1,0 +1,68 @@
+name: web-smkn2-prod
+
+services:
+
+  app:
+    image: kangstek/web-smkn-2:beta-0
+    
+    container_name: web-smkn-2-laravel-app-prod
+
+    working_dir: /var/www
+
+    env_file:
+      - ./docker/app/.env.prod
+
+    volumes:
+      - app-data:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    
+    networks:
+      - web-smkn-2-laravel-net
+
+  webserver:
+    image: nginx:1.25.3
+    container_name: web-smkn-2-laravel-webserver-prod
+
+    ports:
+      - 80:80
+      - 443:443
+
+    volumes:
+      - app-data:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/ssl/cert.pem:/etc/ssl/cert.pem
+      - ./docker/nginx/ssl/key.pem:/etc/ssl/key.pem
+      # - ./docker/nginx/ssl/cloudflare.crt:/etc/ssl/certs/cloudflare.crt
+
+    networks:
+      - web-smkn-2-laravel-net
+  
+  db:
+    image: mariadb:10.7.8
+    container_name: web-smkn-2-db-prod
+
+    ports:
+      - 3306:3306
+    
+    environment:
+      MARIADB_ROOT_PASSWORD: 'toor'
+      MARIADB_DATABASE: 'web-profil-smk-db'
+      MARIADB_USER: 'lara'
+      MARIADB_PASSWORD: 'lara'
+    
+    volumes:
+      - web-smkn-2-laravel-data:/var/lib/mysql
+    
+    networks:
+      - web-smkn-2-laravel-net
+  
+volumes:
+  app-data:
+    driver: local
+  web-smkn-2-laravel-data:
+    driver: local
+
+
+networks:
+  web-smkn-2-laravel-net:
+    driver: bridge
