@@ -94,6 +94,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'BaseLayout',
     data(){
@@ -110,9 +112,35 @@ export default {
             return this.isSidebarOpen ? '' : '-translate-x-full sm:translate-x-0';
         }
     },
+    mounted() {
+        this.checkAuth();
+    },
     methods: {
         toggleSidebar(){
             this.isSidebarOpen = !this.isSidebarOpen
+        },
+        checkAuth(){
+            axios.get("/api/author/user", {
+                headers: {
+                    Authorization: "Bearer " + this.token
+                }
+            })
+                .then(({ data }) => {
+                    console.log(data);
+                    const role = data.data.role_user;
+                    if (role !== 'author'){
+                        localStorage.removeItem("jwt");
+                        this.$router.push({ name : "Halaman Login"});
+                    }
+
+                })
+                .catch(({ response }) => {
+                    console.error(response);
+                    if (response.status === 403) {
+                        localStorage.removeItem("jwt");
+                        this.$router.push({ name : "Halaman Login"});
+                    }
+                });
         }
     }
 }
