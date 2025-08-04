@@ -1,12 +1,13 @@
 import HomePage from "../views/general/Home.vue";
 import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
-import AddPostAuthor from "../views/author/posts/AddPost.vue";
+import IndexArticleAuthor from "../views/author/article/Index.vue"
+import AddArticleAuthor from "../views/author/article/AddArticle.vue";
 
 const routes = [
     {
         path: "/",
-        name: "Halaman Beranda",
+        name: "Home Page",
         component: HomePage,
         meta: {
             title: "Halaman Beranda"
@@ -14,7 +15,7 @@ const routes = [
     },
     {
         path: "/auth",
-        name: "Halaman Login",
+        name: "Login Page",
         component: AuthPage,
         meta: {
             title: "Halaman Login"
@@ -25,19 +26,32 @@ const routes = [
         children: [
             {
                 path: "dashboard",
-                name: "Dashboard Author",
+                name: "Dashboard Author Page",
                 component: DashboardAuthor,
                 meta: {
                     title: "Halaman Dashboard Author"
                 }
             },
             {
-                path: "post/add",
-                name: "Add Post Author",
-                component: AddPostAuthor,
-                meta: {
-                    title: "Halaman Post Author"
-                }
+                path: "article/",
+                children: [
+                    {
+                        path: "",
+                        name: "Article Author Page",
+                        component: IndexArticleAuthor,
+                        meta: {
+                            title: "Halaman Artikel Author"
+                        }
+                    },
+                    {
+                        path: "add",
+                        name: "Add Article Author Page",
+                        component: AddArticleAuthor,
+                        meta: {
+                            title: "Halaman Membuat Artikel"
+                        }
+                    }
+                ]
             }
         ]
     }

@@ -44,7 +44,9 @@ class ArticleController extends Controller
 
     public function getArticlesByUserId(int $id)
     {
-        $articles = Article::all()->where('user_id', '=', $id);
+        $articles = Article::where('user_id', '=', $id)
+            ->orderByDesc('created_at')
+            ->get();
 
         return response()->json([
             'http_code' => 200,

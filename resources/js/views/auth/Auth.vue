@@ -77,7 +77,7 @@ export default {
             emailErrorMessage: "",
             passwordErrorMessage: "",
             isAuthError: false,
-            authErrorMessage: "" 
+            authErrorMessage: ""
         }
     },
     methods: {
@@ -94,12 +94,13 @@ export default {
                     const response = await promise;
                     console.log(response);
                     localStorage.setItem("jwt", response.data.data.token);
+                    localStorage.setItem("id_user", response.data.data.user.id);
                     localStorage.setItem("nama_user", response.data.data.user.name);
-                    if (response.data.data.user.role_user == "admin") {
+                    if (response.data.data.user.role_user === "admin") {
                         console.log("admin");
-                    } else if (response.data.data.user.role_user == "author") {
+                    } else if (response.data.data.user.role_user === "author") {
                         console.log("author");
-                        this.$router.push({ name: "Dashboard Author" });
+                        this.$router.push({ name: "Dashboard Author Page" });
                     }
                 } catch ({ response }) {
                     // console.error(response);
@@ -107,12 +108,12 @@ export default {
                     // console.log(errorMessages);
                     if (this.isObject(errorMessages)) {
                         Object.keys(errorMessages).forEach((key) => {
-                            if (key == "email") {
+                            if (key === "email") {
                                 this.isEmailError = true;
                                 this.emailErrorMessage = errorMessages[key][0];
                             }
 
-                            if (key == "password") {
+                            if (key === "password") {
                                 this.isPasswordError = true;
                                 this.passwordErrorMessage = errorMessages[key][0];
                             }
@@ -121,7 +122,7 @@ export default {
                         this.isAuthError = true;
                         this.authErrorMessage = errorMessages;
                     }
-                    
+
                 }
             }
 
