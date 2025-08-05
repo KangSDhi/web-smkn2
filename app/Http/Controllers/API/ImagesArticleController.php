@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
+use App\Models\ImageArticle;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class ImagesArticleController extends Controller
+{
+    public function storeBatchImages(Request $request)
+    {
+        $articleId = $request->input('article_id');
+        $images = $request->file('image');
+        foreach ($images as $image) {
+            $fileName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('images_article', $image, $fileName);
+
+            $imagesArticle = new ImageArticle();
+            $imagesArticle->image = $fileName;
+            $imagesArticle->article_id = $articleId;
+            $imagesArticle->save();
+        }
+
+        return response()->json([
+            'http_code' => 201,
+            'message' => 'Berhasil Menambahkan Gambar Artikel!',
+        ], 201);
+
+    }
+}

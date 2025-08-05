@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController as Auth;
 use App\Http\Controllers\API\ArticleController as Article;
+use App\Http\Controllers\API\ImagesArticleController as ImagesArticle;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -23,4 +24,5 @@ Route::middleware(['jwt', 'role:author'])->prefix('author')->group(function(){
     Route::post('/article', [Article::class, 'storeArticle']);
     Route::put('/article/{id}', [Article::class, 'updateArticle']);
     Route::delete('/article/{id}', [Article::class, 'deleteArticle']);
+    Route::post('/images/article', [ImagesArticle::class, 'storeBatchImages']);
 });
