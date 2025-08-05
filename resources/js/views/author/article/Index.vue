@@ -123,6 +123,27 @@ export default {
 
             return list;
         },
+        containsTagParagraph(input) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(input, 'text/html');
+            if (doc.querySelector('p') !== null || doc.querySelector('li') !== null) {
+                const extract = this.extractTextFromHTML(input);
+                return this.truncateText(extract);
+            } else  {
+                return this.truncateText(input);
+            }
+        },
+        extractTextFromHTML(input){
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = input;
+
+            const elements = tempDiv.querySelectorAll('p, li');
+
+            return Array.from(elements)
+                .map(el => el.textContent.trim())
+                .filter(text => text.length > 0)
+                .join('\n\n');
+        },
         truncateText(text) {
             return text.slice(0, 50) + '...';
         },
@@ -241,7 +262,7 @@ export default {
                                 </template>
                             </td>
                             <td class="px-4 py-4 text-sm">
-                                {{ truncateText(item.body) }}
+                                {{ containsTagParagraph(item.body) }}
                             </td>
                             <td class="px-4 py-4 text-sm">
                                 {{ formatDatetime(item.updated_at) }}
