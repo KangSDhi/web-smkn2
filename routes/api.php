@@ -21,6 +21,7 @@ Route::middleware(['jwt', 'role:author'])->prefix('author')->group(function(){
     Route::get('/articles', [Article::class, 'getArticles']);
     Route::get('/articles/limit/{limit}', [Article::class, 'getArticlesLimit']);
     Route::get('/articles/user/{id}', [Article::class, 'getArticlesByUserId']);
+    Route::get('/article/{id}', [Article::class, 'getArticleById']);
     Route::post('/article', [Article::class, 'storeArticle']);
     Route::put('/article/{id}', [Article::class, 'updateArticle']);
     Route::delete('/article/{id}', [Article::class, 'deleteArticle']);

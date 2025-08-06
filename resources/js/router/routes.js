@@ -3,6 +3,7 @@ import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
 import IndexArticleAuthor from "../views/author/article/Index.vue"
 import AddArticleAuthor from "../views/author/article/AddArticle.vue";
+import ViewArticleAuthor from "../views/author/article/ViewArticle.vue";
 
 const routes = [
     {
@@ -49,6 +50,14 @@ const routes = [
                         component: AddArticleAuthor,
                         meta: {
                             title: "Halaman Membuat Artikel"
+                        }
+                    },
+                    {
+                        path: "view/:id",
+                        name: "View Article Author Page",
+                        component: ViewArticleAuthor,
+                        meta: {
+                            title: "Halaman View Artikel"
                         }
                     }
                 ]

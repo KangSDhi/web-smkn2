@@ -5,7 +5,7 @@ import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from "axios";
 
 export default {
-    name: 'Add Post',
+    name: 'Add Article',
     components: {
         BaseLayout,
         QuillEditor
