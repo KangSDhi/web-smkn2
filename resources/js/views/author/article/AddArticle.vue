@@ -58,46 +58,45 @@ export default {
             this.imageArticle.splice(index, 1);
             this.imageArticleUrl.splice(index, 1);
         },
-        storeArticle() {
-            const formData = new FormData();
-            formData.append("title", this.title);
-            formData.append("body", this.body);
-            formData.append("user_id", this.user_id);
-            formData.append("image", this.imageCover);
+        async storeArticle() {
+            try {
+                const formData = new FormData();
+                formData.append("title", this.title);
+                formData.append("body", this.body);
+                formData.append("user_id", this.user_id);
+                formData.append("image", this.imageCover);
 
-            axios.post("/api/author/article", formData, {
-                headers: {
-                    Authorization: `Bearer ${this.token}`
-                }
-            })
-                .then(({data}) => {
-                    const articleId = data.data.id;
-                    console.log(articleId);
-                    console.log(data);
-                    if (this.imageArticle.length !== 0) {
-                        const formData = new FormData();
-
-                        this.imageArticle.forEach((imageFile) => {
-                            formData.append("image[]", imageFile);
-                        });
-
-                        formData.append("article_id", articleId);
-                        axios.post("/api/author/images/article", formData, {
-                            headers: {
-                                Authorization: `Bearer ${this.token}`
-                            }
-                        }).then(({data}) => {
-                            console.log(data)
-                        }).catch(({response}) => {
-                            console.error(response);
-                        });
+                const articleRes = await axios.post("/api/author/article", formData, {
+                    headers: {
+                        Authorization: `Bearer ${this.token}`
                     }
-
-
-                })
-                .catch(({response}) => {
-                    console.error(response)
                 });
+
+                const articleId = articleRes.data.data.id;
+
+                if (this.imageArticle.length !== 0) {
+                    const formData = new FormData();
+
+                    this.imageArticle.forEach((imageFile) => {
+                        formData.append("image[]", imageFile);
+                    });
+
+                    formData.append("article_id", articleId);
+
+                    const imagesRes = await axios.post("/api/author/images/article", formData, {
+                        headers: {
+                            Authorization: `Bearer ${this.token}`
+                        }
+                    });
+
+                    console.log("Images upload :", imagesRes.data);
+                }
+
+                this.$router.push({ name: 'Article Author Page' });
+
+            } catch (error) {
+                console.error("Gagal Menyimpan Artikel : ", error.response || error);
+            }
         }
     }
 }
