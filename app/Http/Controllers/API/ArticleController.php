@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Rules\NullStringRule;
 
 class ArticleController extends Controller
 {
@@ -65,8 +66,8 @@ class ArticleController extends Controller
         $fileName = null;
         if ($request->hasFile('image')) {
             $validator = Validator::make($request->all(), [
-                'title' => 'required',
-                'body' => 'required',
+                'title' => ['required', new NullStringRule],
+                'body' => ['required', new NullStringRule],
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'user_id' => 'required',
             ]);
@@ -85,8 +86,8 @@ class ArticleController extends Controller
 
         } else {
             $validator = Validator::make($request->all(), [
-                'title' => 'required',
-                'body' => 'required',
+                'title' => ['required', new NullStringRule],
+                'body' => ['required', new NullStringRule],
                 'user_id' => 'required',
             ]);
 
