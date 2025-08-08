@@ -15,7 +15,14 @@ class NullStringRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if ($value == "null") {
-            $fail(':attribute tidak boleh kosong!');
+            if ($attribute == "title") {
+                $fail("Judul tidak boleh kosong!");
+            }
+
+            if ($attribute == "body") {
+                $fail("Isi artikel tidak boleh kosong!");
+            }
+
         }
     }
 }

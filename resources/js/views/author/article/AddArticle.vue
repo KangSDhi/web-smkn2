@@ -19,12 +19,18 @@ export default {
             imageCover: null,
             imageCoverUrl: null,
             imageArticle: [],
-            imageArticleUrl: []
+            imageArticleUrl: [],
+            imageArticleDesc: [],
+            isTitleError: false,
+            titleErrorMessage: null,
+            isBodyError: false,
+            bodyErrorMessage: null
         }
     },
     methods: {
         onFileChangeCoverFile(event) {
-            const file = event.target.files[0];
+            const fileInput = event.target;
+            const file = fileInput.files[0];
             if (file && file.type.startsWith('image/')) {
                 this.imageCover = file;
 
@@ -39,24 +45,31 @@ export default {
                 this.imageCoverUrl = null;
                 alert('Silahkan Pilih Gambar!');
             }
+
+            fileInput.value = '';
         },
         onFileChangeImageArticleFile(event) {
-            const file = event.target.files[0];
+            const fileInput = event.target;
+            const file = fileInput.files[0];
             if (file && file.type.startsWith('image/')) {
                 this.imageArticle.push(file);
 
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     this.imageArticleUrl.push(e.target.result);
+                    this.imageArticleDesc.push('');
                 };
 
                 reader.readAsDataURL(file);
             }
+
+            fileInput.value = '';
         },
         deleteImageArticle(index) {
             console.log(index);
             this.imageArticle.splice(index, 1);
             this.imageArticleUrl.splice(index, 1);
+            this.imageArticleDesc.splice(index, 1);
         },
         async storeArticle() {
             try {
@@ -81,6 +94,10 @@ export default {
                         formData.append("image[]", imageFile);
                     });
 
+                    this.imageArticleDesc.forEach((imageDesc) => {
+                        formData.append("image_desc[]", imageDesc)
+                    });
+
                     formData.append("article_id", articleId);
 
                     const imagesRes = await axios.post("/api/author/images/article", formData, {
@@ -92,10 +109,23 @@ export default {
                     console.log("Images upload :", imagesRes.data);
                 }
 
-                this.$router.push({ name: 'Article Author Page' });
+                // this.$router.push({ name: 'Article Author Page' });
 
             } catch (error) {
                 console.error("Gagal Menyimpan Artikel : ", error.response || error);
+                if (error.response.status === 400) {
+                    const { errors } = error.response.data;
+
+                    if (errors.title) {
+                        this.isTitleError = true;
+                        this.titleErrorMessage = errors.title[0];
+                    }
+
+                    if (errors.body) {
+                        this.isBodyError = true;
+                        this.bodyErrorMessage = errors.body[0];
+                    }
+                }
             }
         }
     }
@@ -105,20 +135,25 @@ export default {
 <template>
     <BaseLayout>
         <template #content>
-            <h1>Post</h1>
-            <div class="flex flex-row">
-                <div class="basis-3/4">
+            <h1 class="text-5xl font-black font-mono underline -underline-offset-1">Tambah Artikel</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div class="col-span-2">
                     <div class="mb-2">
                         <label for="title_article" class="block mb-2 text-sm font-medium text-gray-900">Judul
                             Artikel</label>
                         <input v-model="title" type="text" id="title_article"
-                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                               :class="[
+                                   'bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5',
+                                   isTitleError ? 'border-2 border-red-500' : 'border-gray-300'
+                               ]"
                                placeholder="Hello World" required/>
+                        <span class="text-sm text-red-500">{{ titleErrorMessage }}</span>
                     </div>
                     <div class="mb-2">
                         <label for="content_article" class="block mb-2 text-sm font-medium text-gray-900">Konten
                             Artikel</label>
                         <QuillEditor v-model:content="body" content-type="html" id="content_article" theme="snow"/>
+                        <span class="text-sm text-red-500">{{ bodyErrorMessage }}</span>
                     </div>
                     <div class="mb-2">
                         <label for="image_article" class="block mb-2 text-sm font-medium text-gray-900">Gambar
@@ -128,19 +163,22 @@ export default {
                         <div class="grid grid-cols-3 gap-4">
                             <template v-if="imageArticleUrl.length !== 0">
                                 <template v-for="(imageUrl, index) in imageArticleUrl">
-                                    <div class="relative">
-                                        <button type="button" @click="deleteImageArticle(index)"
-                                                class="absolute top-1 right-1 bg-transparent items-center justify-center cursor-pointer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor"
-                                                 class="w-6 h-6 text-red-400 font-bold">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M6 18 18 6M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                        <img :src="imageUrl" alt="" srcset="" class="w-full max-h-min rounded-lg">
+                                    <div>
+                                        <div class="relative">
+                                            <button type="button" @click="deleteImageArticle(index)"
+                                                    class="absolute top-1 right-1 bg-transparent items-center justify-center cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor"
+                                                     class="w-6 h-6 text-red-400 font-bold">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M6 18 18 6M6 6l12 12"/>
+                                                </svg>
+                                            </button>
+                                            <img :src="imageUrl" alt="" srcset="" class="w-full max-h-min rounded-lg">
+                                        </div>
+                                        <label for="">Deskripsi</label>
+                                        <input v-model="imageArticleDesc[index]" type="text" class="bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                     </div>
-
                                 </template>
                             </template>
                         </div>
@@ -152,7 +190,7 @@ export default {
                         </button>
                     </div>
                 </div>
-                <div class="basis-1/4">
+                <div>
                     <label for="cover_article" class="block mb-2 text-sm font-medium text-gray-900">Cover
                         Artikel</label>
                     <div class="p-2">

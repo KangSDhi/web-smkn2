@@ -63,56 +63,51 @@ class ArticleController extends Controller
 
     public function storeArticle(Request $request)
     {
-        $fileName = null;
+        $rules = [
+            'title' => ['required', new NullStringRule],
+            'body' => ['required', new NullStringRule],
+            'user_id' => ['required', new NullStringRule],
+        ];
+
+        $messages = [
+            'title.required' => 'Judul tidak boleh kosong!',
+            'body.required' => 'Isi artikel tidak boleh kosong!',
+            'user_id.required' => 'User ID tidak boleh kosong!',
+        ];
+
         if ($request->hasFile('image')) {
-            $validator = Validator::make($request->all(), [
-                'title' => ['required', new NullStringRule],
-                'body' => ['required', new NullStringRule],
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'user_id' => 'required',
-            ]);
-
-            if($validator->fails()){
-                return response()->json([
-                    'http_code' => 400,
-                    'errors' => $validator->errors()
-                ], 400);
-            }
-
-            $image = $request->file('image');
-            $fileName = Str::uuid() . '.' . $image->getClientOriginalExtension();
-
-            Storage::disk('public')->putFileAs('cover_articles', $image, $fileName);
-
-        } else {
-            $validator = Validator::make($request->all(), [
-                'title' => ['required', new NullStringRule],
-                'body' => ['required', new NullStringRule],
-                'user_id' => 'required',
-            ]);
-
-            if($validator->fails()){
-                return response()->json([
-                    'http_code' => 400,
-                    'errors' => $validator->errors()
-                ], 400);
-            }
+            $rules['image'] = 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048';
         }
 
-        $article = new Article();
-        $article->title = $request->title;
-        $article->slug = Str::slug($request->title, '-');
-        $article->body = $request->body;
-        $article->image = $fileName;
-        $article->user_id = $request->user_id;
-        $article->save();
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'http_code' => 400,
+                'errors' => $validator->errors(),
+            ], 400);
+        }
+
+        $fileName = null;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('cover_articles', $file, $fileName);
+        }
+
+        $article = Article::create([
+            'title' => $request->input('title'),
+            'slug' => Str::slug($request->input('title'), '-'),
+            'body' => $request->input('body'),
+            'user_id' => $request->input('user_id'),
+            'image' => $fileName,
+        ]);
 
         return response()->json([
             'http_code' => 201,
             'message' => 'Berhasil Menambah Artikel',
             'data' => $article,
         ], 201);
-
     }
 
     public function updateArticle(Request $request, int $id)

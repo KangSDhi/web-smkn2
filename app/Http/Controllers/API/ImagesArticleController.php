@@ -14,12 +14,14 @@ class ImagesArticleController extends Controller
     {
         $articleId = $request->input('article_id');
         $images = $request->file('image');
-        foreach ($images as $image) {
+        $imageDesc = $request->input('image_desc');
+        foreach ($images as $key => $image) {
             $fileName = Str::uuid() . '.' . $image->getClientOriginalExtension();
             Storage::disk('public')->putFileAs('images_article', $image, $fileName);
 
             $imagesArticle = new ImageArticle();
             $imagesArticle->image = $fileName;
+            $imagesArticle->description = $imageDesc[$key];
             $imagesArticle->article_id = $articleId;
             $imagesArticle->save();
         }
