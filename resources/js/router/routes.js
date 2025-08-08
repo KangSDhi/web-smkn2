@@ -5,6 +5,9 @@ import IndexArticleAuthor from "../views/author/article/Index.vue"
 import AddArticleAuthor from "../views/author/article/AddArticle.vue";
 import ViewArticleAuthor from "../views/author/article/ViewArticle.vue";
 
+import Untitled0 from "../views/general/dummy/Untitled0.vue";
+import Untitled1 from "../views/general/dummy/Untitled1.vue";
+
 const routes = [
     {
         path: "/",
@@ -12,6 +15,22 @@ const routes = [
         component: HomePage,
         meta: {
             title: "Halaman Beranda"
+        }
+    },
+    {
+        path: "/berita/smk-negeri-2-bojonegoro-gelar-workshop-dan-review-kurikulum-satuan-pendidikan",
+        name: "SMK Negeri 2 Bojonegoro Gelar Workshop dan Review Kurikulum Satuan Pendidikan",
+        component: Untitled0,
+        meta: {
+            title: "SMK Negeri 2 Bojonegoro Gelar Workshop dan Review Kurikulum Satuan Pendidikan"
+        }
+    },
+    {
+        path: "/berita/smk-negeri-2-bojonegoro-popkab-bojonegoro",
+        name: "SMK Negeri 2 Bojonegoro Popkab Bojonegoro",
+        component: Untitled1,
+        meta: {
+            title: "SMK Negeri 2 Bojonegoro Popkab Bojonegoro"
         }
     },
     {

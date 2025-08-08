@@ -1,9 +1,5 @@
-FROM node:24.4.1 as node
 FROM php:8.4-fpm
 
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=node /usr/local/bin/node /usr/local/bin/node
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 COPY composer.lock composer.json /var/www/
 
 WORKDIR /var/www
@@ -49,12 +45,6 @@ RUN chown -R www-data:www-data /var/www
 
 # Run Chmod -R 777
 RUN chmod -R 777 /var/www
-
-# Run npm install
-# RUN npm install
-
-# Run npm run build
-# RUN npm run build
 
 # Change Current User to www
 USER www
