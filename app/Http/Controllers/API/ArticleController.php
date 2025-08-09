@@ -45,7 +45,12 @@ class ArticleController extends Controller
 
     public function getArticleBySlug(string $slug)
     {
-
+        $article = Article::where('slug', $slug)->first();
+        return response()->json([
+            'http_code' => 200,
+            'message' => 'Berhasil Mengambil Artikel',
+            'data' => $article,
+        ], 200);
     }
 
     public function getArticlesByUserId(int $id)

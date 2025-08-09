@@ -72,7 +72,7 @@ const routes = [
                         }
                     },
                     {
-                        path: "view/:id",
+                        path: "view/:slug",
                         name: "View Article Author Page",
                         component: ViewArticleAuthor,
                         meta: {

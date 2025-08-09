@@ -268,7 +268,7 @@ export default {
                                 {{ formatDatetime(item.updated_at) }}
                             </td>
                             <td class="px-4 py-4 space-x-2 text-right">
-                                <router-link :to="{ name: 'View Article Author Page', params: { id: item.id } }" target="_blank"
+                                <router-link :to="{ name: 'View Article Author Page', params: { slug: item.slug } }" target="_blank"
                                     class="bg-gray-200 px-2.5 py-1 text-gray-900 rounded-md inline-flex items-center cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          class="w-4 h-4">

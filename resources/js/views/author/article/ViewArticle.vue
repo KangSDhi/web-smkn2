@@ -1,6 +1,7 @@
 <script>
 import BaseLayout from "../BaseLayout.vue";
 import axios from "axios";
+
 export default {
     name: 'View Article',
     components: {
@@ -9,19 +10,20 @@ export default {
     data(){
         return {
             token: null,
-            idArtikel: null,
+            slugArtikel: null,
             title: null,
             body: null,
-            coverImage: null
+            coverImage: null,
+            articleImages: []
         }
     },
     created() {
         this.token = localStorage.getItem("jwt");
-        this.idArtikel = this.$route.params.id;
+        this.slugArtikel = this.$route.params.slug;
     },
     methods: {
         getArticleById(){
-            axios.get(`/api/author/article/${this.idArtikel}`, {
+            axios.get(`/api/author/article/slug/${this.slugArtikel}`, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }
@@ -32,6 +34,20 @@ export default {
                     this.title = responseData.title;
                     this.body = responseData.body;
                     this.coverImage = responseData.image;
+
+                    const idArticle = responseData.id;
+
+                    axios.get(`/api/author/images/article/article/${idArticle}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.token}`
+                        }
+                    })
+                        .then(({ data }) => {
+                            this.articleImages = data.data;
+                        })
+                        .catch(({ response }) => {
+                            console.error(response);
+                        });
                 })
                 .catch(({ response }) => {
                     console.error(response);
@@ -47,13 +63,18 @@ export default {
 <template>
     <BaseLayout>
         <template #content>
-            <h1>{{ title }}</h1>
-            <div class="flex flex-row">
-                <div class="basis-3/4">
-                    <div v-html="body" class="font-[Open_Sans] text-lg"></div>
+            <h1 class="text-4xl font-bold font-mono mb-4">{{ title }}</h1>
+            <div class="grid grid-cols-1 sm:grid-cols-3">
+                <div class="col-span-2">
+                    <div v-html="body" class="text-lg font-light font-mono"></div>
                 </div>
-                <div class="basis-1/4">
-
+                <div>
+                    <template v-for="(item, index) in articleImages">
+                        <div class="mb-4">
+                            <img :src="`/storage/images_article/${item.image}`" alt="" class="w-full rounded-lg">
+                            <p class="text-sm font-bold text-center">{{ item.description }}</p>
+                        </div>
+                    </template>
                 </div>
             </div>
         </template>

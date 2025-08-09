@@ -109,7 +109,7 @@ export default {
                     console.log("Images upload :", imagesRes.data);
                 }
 
-                // this.$router.push({ name: 'Article Author Page' });
+                this.$router.push({ name: 'Article Author Page' });
 
             } catch (error) {
                 console.error("Gagal Menyimpan Artikel : ", error.response || error);

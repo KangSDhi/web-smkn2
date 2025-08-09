@@ -21,9 +21,11 @@ Route::middleware(['jwt', 'role:author'])->prefix('author')->group(function(){
     Route::get('/articles', [Article::class, 'getArticles']);
     Route::get('/articles/limit/{limit}', [Article::class, 'getArticlesLimit']);
     Route::get('/articles/user/{id}', [Article::class, 'getArticlesByUserId']);
+    Route::get('/article/slug/{slug}', [Article::class, 'getArticleBySlug']);
     Route::get('/article/{id}', [Article::class, 'getArticleById']);
     Route::post('/article', [Article::class, 'storeArticle']);
     Route::put('/article/{id}', [Article::class, 'updateArticle']);
     Route::delete('/article/{id}', [Article::class, 'deleteArticle']);
+    Route::get('/images/article/article/{id}', [ImagesArticle::class, 'getImagesArticleByIdArticle']);
     Route::post('/images/article', [ImagesArticle::class, 'storeBatchImages']);
 });
