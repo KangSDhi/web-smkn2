@@ -1,3 +1,58 @@
+<script>
+import BaseLayout from './BaseLayout.vue';
+import axios from "axios";
+
+export default {
+    components: {
+        BaseLayout
+    },
+    data(){
+        return {
+            articles: []
+        }
+    },
+    methods: {
+        getArticles(){
+            axios.get(`/api/articles/limit/2`)
+                .then(({ data }) => {
+                    console.log(data);
+                    this.articles = data.data;
+                })
+                .catch(({ response }) => {
+                    console.error(response);
+                })
+        },
+        truncateText(text){
+            return text.slice(0, 100) + '...';
+        },
+        extractTextFromHTML(input){
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = input;
+
+            const elements = tempDiv.querySelectorAll('p, li');
+
+            return Array.from(elements)
+                .map(el => el.textContent.trim())
+                .filter(text => text.length > 0)
+                .join('\n\n');
+        },
+        displayParagraph(input){
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(input, 'text/html');
+            if (doc.querySelector('p') !== null || doc.querySelector('li') !== null){
+                const extract = this.extractTextFromHTML(input);
+                return this.truncateText(extract)
+            } else {
+                return this.truncateText(input)
+            }
+        }
+    },
+    mounted() {
+        this.getArticles();
+    }
+}
+</script>
+
 <template>
     <BaseLayout>
         <template #content>
@@ -25,56 +80,39 @@
                 <div class="p-8">
                     <h4 class="text-2xl text-black font-bold">Berita Terbaru</h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 mb-4">
-                        <div
-                            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
-                            <a href="#">
-                                <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
-                            </a>
-                            <div class="p-5">
+                        <template v-for="(item, index) in articles">
+                            <div
+                                class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
                                 <a href="#">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                                        Noteworthy technology acquisitions 2021</h5>
-                                </a>
-                                <p class="mb-3 font-normal text-gray-700">Here are the biggest
-                                    enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                                </p>
-                                <a href="#"
-                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                                    Read more
-                                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
+                                    <template v-if="item.image !== null">
+                                        <img class="rounded-t-lg h-60" :src="`/storage/cover_articles/${item.image}`" alt="" />
+                                    </template>
+                                    <template v-else>
+                                        <img class="rounded-t-lg h-60" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
+                                    </template>
 
-                        <div
-                            class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                            <a href="#">
-                                <img class="rounded-t-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
-                            </a>
-                            <div class="p-5">
-                                <a href="#">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                        Noteworthy technology acquisitions 2021</h5>
                                 </a>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest
-                                    enterprise technology acquisitions of 2021 so far, in reverse chronological order.
-                                </p>
-                                <a href="#"
-                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Read more
-                                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                                    </svg>
-                                </a>
+                                <div class="p-5">
+                                    <a href="#">
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                                            {{ item.title }}
+                                        </h5>
+                                    </a>
+                                    <p class="mb-3 font-normal text-gray-700">
+                                        {{ displayParagraph(item.body) }}
+                                    </p>
+                                    <router-link :to="{ name: 'Article Page', params: { slug: item.slug } }"
+                                       class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                        Baca Selengkapnya ...
+                                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                  stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                                        </svg>
+                                    </router-link>
+                                </div>
                             </div>
-                        </div>
-
+                        </template>
                     </div>
                     <div class="flex">
                         <button type="button" class="w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 cursor-pointer">Lebih Banyak Lagi...</button>
@@ -84,13 +122,3 @@
         </template>
     </BaseLayout>
 </template>
-
-<script>
-import BaseLayout from './BaseLayout.vue';
-
-export default {
-    components: {
-        BaseLayout
-    }
-}
-</script>

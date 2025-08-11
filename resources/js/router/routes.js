@@ -1,4 +1,5 @@
 import HomePage from "../views/general/Home.vue";
+import Article from "../views/general/Article.vue";
 import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
 import IndexArticleAuthor from "../views/author/article/Index.vue"
@@ -18,21 +19,29 @@ const routes = [
         }
     },
     {
-        path: "/berita/smk-negeri-2-bojonegoro-gelar-workshop-dan-review-kurikulum-satuan-pendidikan",
-        name: "SMK Negeri 2 Bojonegoro Gelar Workshop dan Review Kurikulum Satuan Pendidikan",
-        component: Untitled0,
+        path: "/berita/:slug",
+        name: "Article Page",
+        component: Article,
         meta: {
-            title: "SMK Negeri 2 Bojonegoro Gelar Workshop dan Review Kurikulum Satuan Pendidikan"
+            title: "Artikel"
         }
     },
-    {
-        path: "/berita/smk-negeri-2-bojonegoro-popkab-bojonegoro",
-        name: "SMK Negeri 2 Bojonegoro Popkab Bojonegoro",
-        component: Untitled1,
-        meta: {
-            title: "SMK Negeri 2 Bojonegoro Popkab Bojonegoro"
-        }
-    },
+    // {
+    //     path: "/berita/smk-negeri-2-bojonegoro-gelar-workshop-dan-review-kurikulum-satuan-pendidikan",
+    //     name: "SMK Negeri 2 Bojonegoro Gelar Workshop dan Review Kurikulum Satuan Pendidikan",
+    //     component: Untitled0,
+    //     meta: {
+    //         title: "SMK Negeri 2 Bojonegoro Gelar Workshop dan Review Kurikulum Satuan Pendidikan"
+    //     }
+    // },
+    // {
+    //     path: "/berita/smk-negeri-2-bojonegoro-popkab-bojonegoro",
+    //     name: "SMK Negeri 2 Bojonegoro Popkab Bojonegoro",
+    //     component: Untitled1,
+    //     meta: {
+    //         title: "SMK Negeri 2 Bojonegoro Popkab Bojonegoro"
+    //     }
+    // },
     {
         path: "/auth",
         name: "Login Page",

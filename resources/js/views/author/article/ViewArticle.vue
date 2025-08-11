@@ -22,7 +22,7 @@ export default {
         this.slugArtikel = this.$route.params.slug;
     },
     methods: {
-        getArticleById(){
+        getArticleBySlug(){
             axios.get(`/api/author/article/slug/${this.slugArtikel}`, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
@@ -55,7 +55,7 @@ export default {
         }
     },
     mounted() {
-        this.getArticleById();
+        this.getArticleBySlug();
     }
 }
 </script>

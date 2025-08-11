@@ -11,6 +11,10 @@ use App\Http\Controllers\API\ImagesArticleController as ImagesArticle;
 // })->middleware('auth:sanctum');
 
 Route::post('/login', [Auth::class, 'login']);
+Route::get('/articles', [Article::class, 'getArticles']);
+Route::get('/articles/limit/{limit}', [Article::class, 'getArticlesLimit']);
+Route::get('/article/slug/{slug}', [Article::class, 'getArticleBySlug']);
+Route::get('/images/article/article/{id}', [ImagesArticle::class, 'getImagesArticleByIdArticle']);
 
 Route::middleware('jwt')->group(function(){
     Route::get('/user', [Auth::class, 'getUser']);

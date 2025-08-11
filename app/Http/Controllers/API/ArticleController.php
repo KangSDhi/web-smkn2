@@ -24,7 +24,9 @@ class ArticleController extends Controller
     }
 
     public function getArticlesLimit(int $limit) {
-        $articles = Article::all()->take($limit);
+        $articles = Article::orderBy('updated_at', 'desc')
+            ->limit($limit)
+            ->get();
 
         return response()->json([
             'http_code' => 200,
