@@ -1,0 +1,9 @@
+@font-face {
+    font-family: font-libertius-serif;
+    src: url("../fonts/Libertinus_Serif/LibertinusSerif-Regular.ttf");
+}
+
+@font-face {
+    font-family: font-playfair-display;
+    src: url("../fonts/Playfair_Display/static/PlayfairDisplay-Regular.ttf");
+}

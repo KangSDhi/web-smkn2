@@ -8,18 +8,18 @@ export default {
     },
     data(){
         return {
-            slugArtikel: null,
+            slugArticle: null,
             title: null,
             body: null,
             articleImages: []
         }
     },
     created() {
-        this.slugArtikel = this.$route.params.slug;
+        this.slugArticle = this.$route.params.slug;
     },
     methods: {
         getArticleBySlug(){
-            axios.get(`/api/article/slug/${this.slugArtikel}`)
+            axios.get(`/api/article/slug/${this.slugArticle}`)
                 .then(({ data }) => {
                     console.log(data);
                     const responseData = data.data;
@@ -52,16 +52,16 @@ export default {
     <BaseLayout>
         <template #content>
             <div class="p-4">
-                <h1 class="text-4xl font-bold font-mono mb-4">{{ title }}</h1>
+                <h1 class="text-4xl font-bold font-libertius-serif mb-4">{{ title }}</h1>
                 <div class="grid grid-cols-1 sm:grid-cols-3">
-                    <div class="col-span-2">
-                        <div v-html="body" class="text-lg font-light font-mono"></div>
+                    <div class="col-span-2 p-4">
+                        <div v-html="body" class="text-lg font-libertius-serif"></div>
                     </div>
                     <div>
                         <template v-for="(item, index) in articleImages">
                             <div class="mb-4">
                                 <img :src="`/storage/images_article/${item.image}`" alt="" class="w-full rounded-lg">
-                                <p class="text-sm font-bold text-center">{{ item.description }}</p>
+                                <p class="text-sm font-libertius-serif font-bold text-center">{{ item.description }}</p>
                             </div>
                         </template>
                     </div>

@@ -1,1 +1,10 @@
 @import 'tailwindcss';
+@import './fonts.css';
+
+@theme {
+    --font-libertius-serif: font-libertius-serif, "sans-serif";
+}
+
+@theme {
+    --font-playfair-display: font-playfair-display, "sans-serif";
+}
