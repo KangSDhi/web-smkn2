@@ -10,7 +10,7 @@ export default {
     data(){
         return {
             token: null,
-            slugArtikel: null,
+            slugArticle: null,
             title: null,
             body: null,
             coverImage: null,
@@ -19,11 +19,11 @@ export default {
     },
     created() {
         this.token = localStorage.getItem("jwt");
-        this.slugArtikel = this.$route.params.slug;
+        this.slugArticle = this.$route.params.slug;
     },
     methods: {
         getArticleBySlug(){
-            axios.get(`/api/author/article/slug/${this.slugArtikel}`, {
+            axios.get(`/api/author/article/slug/${this.slugArticle}`, {
                 headers: {
                     Authorization: `Bearer ${this.token}`
                 }

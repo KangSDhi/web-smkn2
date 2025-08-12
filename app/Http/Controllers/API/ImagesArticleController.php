@@ -21,6 +21,27 @@ class ImagesArticleController extends Controller
         ], 200);
     }
 
+    public function storeImageArticle(Request $request){
+        $articleId = $request->input('article_id');
+        $imageDescription = $request->input('description') == "null" ? null : $request->input('description');
+        $image = $request->file('image');
+
+        $fileName = Str::uuid() . '.' . $image->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('images_article', $image, $fileName);
+
+        $imageArticle = new ImageArticle();
+        $imageArticle->image = $fileName;
+        $imageArticle->description = $imageDescription;
+        $imageArticle->article_id = $articleId;
+        $imageArticle->save();
+
+        return response()->json([
+            'http_code' => 201,
+            'message' => 'Berhasil Menambahkan Gambar Artikel!',
+            'data' => $imageArticle
+        ], 201);
+    }
+
     public function storeBatchImages(Request $request)
     {
         $articleId = $request->input('article_id');
@@ -41,5 +62,31 @@ class ImagesArticleController extends Controller
             'http_code' => 201,
             'message' => 'Berhasil Menambahkan Gambar Artikel!',
         ], 201);
+    }
+
+    public function updateDescriptionImage(Request $request)
+    {
+        $imageId = $request->input('id');
+        $imageDescription = $request->input('description');
+
+        $imageArticle = ImageArticle::find($imageId);
+        $imageArticle->description = $imageDescription;
+        $imageArticle->save();
+
+        return response()->json([
+            'http_code' => 201,
+            'message' => 'Berhasil Mengubah Deksripsi Gambar Artikel!',
+            'data' => $imageArticle
+        ], 201);
+    }
+
+    public function deleteImageArticle($id){
+        $imageArticle = ImageArticle::find($id);
+        $imageArticle->delete();
+
+        return response()->json([
+            'http_code' => 200,
+            'message' => 'Berhasil Menghapus Gambar Artikel!'
+        ], 200);
     }
 }

@@ -71,13 +71,14 @@ class ArticleController extends Controller
     public function storeArticle(Request $request)
     {
         $rules = [
-            'title' => ['required', new NullStringRule],
+            'title' => ['required', new NullStringRule, 'unique:articles,title'],
             'body' => ['required', new NullStringRule],
             'user_id' => ['required', new NullStringRule],
         ];
 
         $messages = [
             'title.required' => 'Judul tidak boleh kosong!',
+            'title.unique' => 'Judul sudah ada!',
             'body.required' => 'Isi artikel tidak boleh kosong!',
             'user_id.required' => 'User ID tidak boleh kosong!',
         ];
@@ -123,7 +124,7 @@ class ArticleController extends Controller
         $fileName = null;
         if ($request->hasFile('image')) {
             $validator = Validator::make($request->all(), [
-                'title' => 'required',
+                'title' => 'required|unique:articles,title,'.$id,
                 'body' => 'required',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'user_id' => 'required',
@@ -143,7 +144,7 @@ class ArticleController extends Controller
 
         } else {
             $validator = Validator::make($request->all(), [
-                'title' => 'required',
+                'title' => 'required|unique:articles,title,'.$id,
                 'body' => 'required',
                 'user_id' => 'required',
             ]);
@@ -160,7 +161,9 @@ class ArticleController extends Controller
         $article->title = $request->title;
         $article->slug = Str::slug($request->title, '-');
         $article->body = $request->body;
-        $article->image = $fileName;
+        if ($request->hasFile('image')) {
+            $article->image = $fileName;
+        }
         $article->user_id = $request->user_id;
         $article->save();
 

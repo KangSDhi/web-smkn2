@@ -2,7 +2,7 @@
 import BaseLayout from '../BaseLayout.vue';
 import {QuillEditor} from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import axios from "axios";
+import axios from 'axios';
 
 export default {
     name: 'Add Article',

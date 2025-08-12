@@ -4,6 +4,7 @@ import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
 import IndexArticleAuthor from "../views/author/article/Index.vue"
 import AddArticleAuthor from "../views/author/article/AddArticle.vue";
+import EditArticleAuthor from "../views/author/article/EditArticle.vue";
 import ViewArticleAuthor from "../views/author/article/ViewArticle.vue";
 
 import Untitled0 from "../views/general/dummy/Untitled0.vue";
@@ -78,6 +79,14 @@ const routes = [
                         component: AddArticleAuthor,
                         meta: {
                             title: "Halaman Membuat Artikel"
+                        }
+                    },
+                    {
+                        path: "edit/:slug",
+                        name: "Edit Article Author Page",
+                        component: EditArticleAuthor,
+                        meta: {
+                            title: "Halaman Edit Artikel"
                         }
                     },
                     {

@@ -31,5 +31,8 @@ Route::middleware(['jwt', 'role:author'])->prefix('author')->group(function(){
     Route::put('/article/{id}', [Article::class, 'updateArticle']);
     Route::delete('/article/{id}', [Article::class, 'deleteArticle']);
     Route::get('/images/article/article/{id}', [ImagesArticle::class, 'getImagesArticleByIdArticle']);
+    Route::post('/image/article', [ImagesArticle::class, 'storeImageArticle']);
     Route::post('/images/article', [ImagesArticle::class, 'storeBatchImages']);
+    Route::put('/image/article/description', [ImagesArticle::class, 'updateDescriptionImage']);
+    Route::delete('/image/article/{id}', [ImagesArticle::class, 'deleteImageArticle']);
 });
