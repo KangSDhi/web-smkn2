@@ -19,6 +19,12 @@ class AuthorSeeder extends Seeder
                 'email' => 'kangauthor@gmail.com',
                 'password' => bcrypt('ddhh1nn1'),
                 'role_user'   => 'author'
+            ),
+            array(
+                'name' => 'Humas',
+                'email' => 'humas00@smknegeri2bojonegoro.sch.id',
+                'password' => bcrypt('pi314'),
+                'role_user'   => 'author'
             )
         );
 
