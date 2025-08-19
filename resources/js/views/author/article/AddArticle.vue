@@ -3,6 +3,7 @@ import BaseLayout from '../BaseLayout.vue';
 import {QuillEditor} from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from 'axios';
+import { useHead } from '@vueuse/head';
 
 export default {
     name: 'Add Article',
@@ -28,6 +29,17 @@ export default {
         }
     },
     methods: {
+        head(){
+            useHead({
+                title: "Dashboard Author - Tambah Artikel",
+                meta: [
+                    {
+                        name: "description",
+                        content: "Halaman Tambah Artikel Untuk Author"
+                    }
+                ]
+            })
+        },
         onFileChangeCoverFile(event) {
             const fileInput = event.target;
             const file = fileInput.files[0];
@@ -128,6 +140,9 @@ export default {
                 }
             }
         }
+    },
+    mounted() {
+        this.head();
     }
 }
 </script>

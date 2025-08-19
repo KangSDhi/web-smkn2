@@ -1,6 +1,7 @@
 <script>
-import BaseLayout from "../BaseLayout.vue";
-import axios from "axios";
+import BaseLayout from '../BaseLayout.vue';
+import axios from 'axios';
+import { useHead } from '@vueuse/head';
 
 export default {
     name: 'View Article',
@@ -21,7 +22,25 @@ export default {
         this.token = localStorage.getItem("jwt");
         this.slugArticle = this.$route.params.slug;
     },
+    watch: {
+        title(newTitle){
+            if (newTitle) {
+                this.head();
+            }
+        }
+    },
     methods: {
+        head(){
+            useHead({
+                title: `Dashboard Author - Artikel ${this.title}`,
+                meta: [
+                    {
+                        name: 'description',
+                        content: `Halaman View Artikel ${this.title} Untuk Author`,
+                    }
+                ]
+            })
+        },
         getArticleBySlug(){
             axios.get(`/api/author/article/slug/${this.slugArticle}`, {
                 headers: {
@@ -63,16 +82,16 @@ export default {
 <template>
     <BaseLayout>
         <template #content>
-            <h1 class="text-4xl font-bold font-mono mb-4">{{ title }}</h1>
+            <h1 class="text-4xl font-bold font-libertius-serif mb-4">{{ title }}</h1>
             <div class="grid grid-cols-1 sm:grid-cols-3">
-                <div class="col-span-2">
-                    <div v-html="body" class="text-lg font-light font-mono"></div>
+                <div class="col-span-2 p-4">
+                    <div v-html="body" class="text-lg font-libertius-serif"></div>
                 </div>
                 <div>
                     <template v-for="(item, index) in articleImages">
                         <div class="mb-4">
                             <img :src="`/storage/images_article/${item.image}`" alt="" class="w-full rounded-lg">
-                            <p class="text-sm font-bold text-center">{{ item.description }}</p>
+                            <p class="text-sm font-libertius-serif font-bold text-center">{{ item.description }}</p>
                         </div>
                     </template>
                 </div>

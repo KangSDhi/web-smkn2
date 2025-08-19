@@ -1,8 +1,9 @@
 <script>
 import BaseLayout from '../BaseLayout.vue';
-import {QuillEditor} from '@vueup/vue-quill';
+import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import axios from 'axios';
+import { useHead } from '@vueuse/head';
 
 export default {
     name: 'Edit Article',
@@ -32,7 +33,25 @@ export default {
         this.userId = localStorage.getItem("id_user");
         this.slugArticle = this.$route.params.slug;
     },
+    watch: {
+        title(newTitle){
+            if (newTitle) {
+                this.head();
+            }
+        }
+    },
     methods: {
+        head(){
+            useHead({
+                title: `Dashboard Author - Edit Artikel ${this.title}`,
+                meta: [
+                    {
+                        name: 'description',
+                        content: `Halaman Edit Artikel ${this.title} Untuk Author`,
+                    }
+                ]
+            })
+        },
         getArticleBySlug(){
             axios.get(`/api/author/article/slug/${this.slugArticle}`, {
                 headers: {

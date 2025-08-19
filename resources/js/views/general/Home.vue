@@ -1,6 +1,7 @@
 <script>
 import BaseLayout from './BaseLayout.vue';
 import axios from "axios";
+import { useHead } from '@vueuse/head';
 
 export default {
     components: {
@@ -12,6 +13,17 @@ export default {
         }
     },
     methods: {
+        head(){
+            useHead({
+                title: "Halaman Beranda",
+                meta: [
+                    {
+                        name: "description",
+                        content: "Halaman - Beranda Web SMKN 2 Bojonegoro"
+                    }
+                ]
+            });
+        },
         getArticles(){
             axios.get(`/api/articles/limit/2`)
                 .then(({ data }) => {
@@ -48,6 +60,7 @@ export default {
         }
     },
     mounted() {
+        this.head();
         this.getArticles();
     }
 }

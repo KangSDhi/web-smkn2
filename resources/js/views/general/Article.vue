@@ -1,6 +1,8 @@
 <script>
-import BaseLayout from "./BaseLayout.vue"
-import axios from "axios";
+import BaseLayout from './BaseLayout.vue'
+import axios from 'axios';
+import { useHead } from '@vueuse/head';
+
 export default {
     name: "Article",
     components: {
@@ -17,7 +19,25 @@ export default {
     created() {
         this.slugArticle = this.$route.params.slug;
     },
+    watch: {
+        title(newTitle){
+            if (newTitle) {
+                this.head();
+            }
+        }
+    },
     methods: {
+        head(){
+            useHead({
+                title: `Halaman Artikel ${this.title}`,
+                meta: [
+                    {
+                        name: 'description',
+                        content: `Halaman Artikel ${this.title}`
+                    }
+                ]
+            })
+        },
         getArticleBySlug(){
             axios.get(`/api/article/slug/${this.slugArticle}`)
                 .then(({ data }) => {

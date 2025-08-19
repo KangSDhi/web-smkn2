@@ -1,6 +1,7 @@
 <script>
-import BaseLayout from "@/views/author/BaseLayout.vue";
-import axios from "axios";
+import BaseLayout from '../BaseLayout.vue';
+import axios from 'axios';
+import { useHead } from '@vueuse/head';
 
 export default {
     name: 'IndexArticle',
@@ -38,9 +39,21 @@ export default {
         }
     },
     mounted() {
+        this.head();
         this.getArticles();
     },
     methods: {
+        head(){
+            useHead({
+                title: "Dashboard Author - Data Artikel",
+                meta: [
+                    {
+                        name: "description",
+                        content: "Halaman Data Artikel Untuk Author",
+                    }
+                ]
+            })
+        },
         getArticles() {
             axios.get(`/api/author/articles/user/${this.idAuthor}`, {
                 headers: {

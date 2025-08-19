@@ -66,6 +66,7 @@
 
 <script>
 import axios from 'axios';
+import {useHead} from '@vueuse/head';
 
 export default {
     data() {
@@ -81,6 +82,17 @@ export default {
         }
     },
     methods: {
+        head(){
+            useHead({
+                title: "Halaman - Login",
+                meta: [
+                    {
+                        name: "description",
+                        content: "Halaman - Login Web SMKN 2 Bojonegoro",
+                    }
+                ]
+            })
+        },
         login(){
             this.resetForm();
 
@@ -139,6 +151,9 @@ export default {
                 typeof value === 'object' && value !== null && !Array.isArray(value)
             );
         },
+    },
+    mounted() {
+        this.head();
     }
 }
 </script>
