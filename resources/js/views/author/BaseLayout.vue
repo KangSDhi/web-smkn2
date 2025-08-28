@@ -13,7 +13,7 @@
         <aside class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform" :class="sidebarComputed">
             <div class="h-full px-3 py-4 bg-gray-50 dark:bg-gray-800">
                 <a href="#" class="flex items-center pl-2.5 mb-5">
-                    <img src="../../../../public/assets/img/logo.png.webp" class="h-5 mr-3 sm:h-7" alt="Ujian Logo"/>
+                    <img src="../../../../public/assets/img/logo.webp" class="h-5 mr-3 sm:h-7" alt="Ujian Logo"/>
                     <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                         Author
                     </span>

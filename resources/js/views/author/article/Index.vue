@@ -281,6 +281,9 @@ export default {
                         <th scope="col" class="px-6 py-3">
                             Tanggal
                         </th>
+                        <th scope="col" class="px-6 py-3">
+                            Terbit?
+                        </th>
                         <th scope="col" class="px-6 py-3 text-end">
                             Aksi
                         </th>
@@ -302,7 +305,7 @@ export default {
                             <td class="px-4 py-4 text-sm">
                                 {{ item.title }}
                             </td>
-                            <td class="px-4 py-4">
+                            <td class="px-4 py-4 text-center">
                                 <template v-if="item.image != null">
                                     ✅
                                 </template>
@@ -315,6 +318,14 @@ export default {
                             </td>
                             <td class="px-4 py-4 text-sm">
                                 {{ formatDatetime(item.updated_at) }}
+                            </td>
+                            <td class="px-4 py-4 text-center">
+                                <template v-if="item.published === 1">
+                                    ✅
+                                </template>
+                                <template v-else>
+                                    ❌
+                                </template>
                             </td>
                             <td class="flex px-4 py-4 space-x-2 text-right">
                                 <router-link :to="{ name: 'View Article Author Page', params: { slug: item.slug } }" target="_blank"
