@@ -21,6 +21,7 @@ Route::middleware('jwt')->group(function(){
 });
 
 Route::middleware(['jwt', 'role:author'])->prefix('author')->group(function(){
+    Route::get('/logout', [Auth::class, 'logout']);
     Route::get('/user', [Auth::class, 'getUser']);
     Route::get('/articles', [Article::class, 'getArticles']);
     Route::get('/articles/limit/{limit}', [Article::class, 'getArticlesLimit']);

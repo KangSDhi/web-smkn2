@@ -1,7 +1,7 @@
 <template>
     <div>
         <button @click="toggleSidebar" type="button"
-                class="inline-flex items-center p-2 mt-2 ml-3 text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+                class="inline-flex items-center p-2 mt-2 ml-3 text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
             <span class="sr-only">Open sidebar</span>
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                  xmlns="http://www.w3.org/2000/svg">
@@ -11,15 +11,15 @@
             </svg>
         </button>
         <aside class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform" :class="sidebarComputed">
-            <div class="h-full px-3 py-4 bg-gray-50 dark:bg-gray-800">
+            <div class="h-full px-3 py-4 bg-gray-50">
                 <a href="#" class="flex items-center pl-2.5 mb-5">
                     <img src="../../../../public/assets/img/logo.webp" class="h-5 mr-3 sm:h-7" alt="Ujian Logo"/>
-                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                    <span class="self-center text-gray-900 text-xl font-semibold whitespace-nowrap">
                         Author
                     </span>
                 </a>
                 <button @click="toggleSidebar" type="button"
-                        class="sm:invisible text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        class="sm:invisible text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                          xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -31,7 +31,7 @@
                 <ul>
                     <li>
                         <div
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -42,7 +42,7 @@
                     </li>
                     <li>
                         <router-link :to="{ name: 'Dashboard Author Page' }"
-                                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                     class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -53,7 +53,7 @@
                     </li>
                     <li>
                         <router-link :to="{ name: 'Article Author Page' }"
-                                     class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                     class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100group">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -61,17 +61,6 @@
                             </svg>
                             <span class="ml-3">Data Artikel</span>
                         </router-link>
-                    </li>
-                    <li>
-                        <!-- <router-link :to="{ name: 'Data Soal Admin' }"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-                            </svg>
-                            <span class="ml-3">Data Soal</span>
-                        </router-link> -->
                     </li>
                     <li>
                         <a @click="isLogoutOpen = true"
@@ -90,6 +79,17 @@
         <main class="p-4 sm:ml-64">
             <slot name="content"></slot>
         </main>
+        <div v-show="isLogoutOpen"
+             class="flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+            <div class="bg-gray-50 px-16 py-14 rounded-md text-center">
+                <h1 class="text-xl mb-4 font-bold text-slate-500">Apakah Anda Ingin Keluar?</h1>
+                <div class="grid grid-cols-2 gap-1">
+                    <button @click="logout" class="bg-red-500 px-4 py-2 rounded-md text-md font-semibold text-white cursor-pointer">Keluar</button>
+                    <button @click="isLogoutOpen = false"
+                            class="bg-gray-500 px-4 py-2 rounded-md text-md font-semibold text-white ml-1 cursor-pointer">Batal</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -141,6 +141,23 @@ export default {
                         this.$router.push({name: "Login Page"});
                     }
                 });
+        },
+        logout(){
+            this.isLogoutOpen = false;
+            axios.get("/api/author/logout", {
+                headers: {
+                    Authorization: "Bearer " + this.token
+                }
+            })
+                .then(({data}) => {
+                    localStorage.removeItem("jwt");
+                    localStorage.removeItem("nama_user");
+                    localStorage.removeItem("id_user");
+                    this.$router.push({name: "Login Page"});
+                })
+                .catch(({response}) => {
+                    console.error(response);
+                })
         }
     }
 }
