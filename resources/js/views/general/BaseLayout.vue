@@ -109,6 +109,9 @@
                     <div>
                         <a href="#" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
                             <img src="../../../../public/assets/img/logo.webp" class="h-8" alt="Flowbite Logo" />
+                            <span class="self-center text-md font-libertius-serif font-semibold whitespace-nowrap">
+                                SMK Negeri 2 Bojonegoro
+                            </span>
                         </a>
                         <div class="flex gap-2 mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

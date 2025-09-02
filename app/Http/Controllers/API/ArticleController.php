@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,9 @@ class ArticleController extends Controller
 {
     public function getArticles()
     {
-        $articles = Article::all();
+        $articles = Article::select('articles.*', 'users.name as author')
+            ->join('users', 'users.id', '=', 'articles.user_id')
+            ->get();
 
         return response()->json([
             'http_code' => 200,
@@ -24,7 +27,9 @@ class ArticleController extends Controller
     }
 
     public function getArticlesLimit(int $limit) {
-        $articles = Article::orderBy('updated_at', 'desc')
+        $articles = Article::select('articles.*', 'users.name as author')
+            ->join('users', 'users.id', '=', 'articles.user_id')
+            ->orderBy('updated_at', 'desc')
             ->limit($limit)
             ->get();
 
@@ -37,7 +42,10 @@ class ArticleController extends Controller
 
     public function getArticleById(int $id)
     {
-        $article = Article::where('id', $id)->first();
+        $article = Article::select('articles.*', 'users.name as author')
+            ->join('users', 'users.id', '=', 'articles.user_id')
+            ->where('id', $id)
+            ->first();
         return response()->json([
             'http_code' => 200,
             'message' => 'Berhasil Mengambil Artikel',
@@ -47,7 +55,10 @@ class ArticleController extends Controller
 
     public function getArticleBySlug(string $slug)
     {
-        $article = Article::where('slug', $slug)->first();
+        $article = Article::select('articles.*', 'users.name as author')
+            ->join('users', 'users.id', '=', 'articles.user_id')
+            ->where('slug', $slug)
+            ->first();
         return response()->json([
             'http_code' => 200,
             'message' => 'Berhasil Mengambil Artikel',
@@ -57,7 +68,9 @@ class ArticleController extends Controller
 
     public function getArticlesByUserId(int $id)
     {
-        $articles = Article::where('user_id', '=', $id)
+        $articles = Article::select('articles.*', 'users.name as author')
+            ->join('users', 'users.id', '=', 'articles.user_id')
+            ->where('user_id', '=', $id)
             ->orderByDesc('created_at')
             ->get();
 
@@ -185,5 +198,4 @@ class ArticleController extends Controller
             'data' => $article,
         ], 200);
     }
-
 }

@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.vue'
 import axios from 'axios';
 import { useHead } from '@vueuse/head';
+import { convertIsoDateTimeToDateString } from '../../utils/Convert.js';
 
 export default {
     name: "Article",
@@ -13,6 +14,8 @@ export default {
             slugArticle: null,
             title: null,
             body: null,
+            author: null,
+            updatedAt: null,
             articleImages: []
         }
     },
@@ -27,6 +30,7 @@ export default {
         }
     },
     methods: {
+        convertIsoDateTimeToDateString,
         head(){
             useHead({
                 title: `Halaman Artikel ${this.title}`,
@@ -45,6 +49,8 @@ export default {
                     const responseData = data.data;
                     this.title = responseData.title;
                     this.body = responseData.body;
+                    this.author = responseData.author;
+                    this.updatedAt = responseData.updated_at;
 
                     const idArticle = responseData.id;
 
@@ -76,6 +82,7 @@ export default {
                 <div class="grid grid-cols-1 sm:grid-cols-3">
                     <div class="col-span-2 p-4">
                         <div v-html="body" class="text-lg font-libertius-serif"></div>
+                        <p class="text-xl font-libertius-serif font-bold mt-10">Penulis : {{ author }} ( {{ convertIsoDateTimeToDateString(updatedAt) }} )</p>
                     </div>
                     <div>
                         <template v-for="(item, index) in articleImages">
@@ -86,7 +93,6 @@ export default {
                         </template>
                     </div>
                 </div>
-
             </div>
         </template>
     </BaseLayout>
