@@ -1,4 +1,5 @@
 import HomePage from "../views/general/Home.vue";
+import FacilityPage from "../views/general/Facility.vue";
 import Article from "../views/general/Article.vue";
 import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
@@ -12,6 +13,11 @@ const routes = [
         path: "/",
         name: "Home Page",
         component: HomePage,
+    },
+    {
+        path: "/fasilitas",
+        name: "Facility Page",
+        component: FacilityPage,
     },
     {
         path: "/berita/:slug",
