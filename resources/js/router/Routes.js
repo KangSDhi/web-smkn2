@@ -1,6 +1,7 @@
 import HomePage from "../views/general/Home.vue";
 import FacilityPage from "../views/general/Facility.vue";
-import Article from "../views/general/Article.vue";
+import ArticlesPage from "../views/general/Articles.vue";
+import ArticlePage from "../views/general/Article.vue";
 import AuthPage from "../views/auth/Auth.vue";
 import DashboardAuthor from "../views/author/Dashboard.vue";
 import IndexArticleAuthor from "../views/author/article/Index.vue"
@@ -20,9 +21,14 @@ const routes = [
         component: FacilityPage,
     },
     {
+        path: "/berita",
+        name: "Articles Page",
+        component: ArticlesPage,
+    },
+    {
         path: "/berita/:slug",
         name: "Article Page",
-        component: Article,
+        component: ArticlePage,
     },
     {
         path: "/auth",
