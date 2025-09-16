@@ -1,12 +1,14 @@
 <script>
 import BaseLayout from './BaseLayout.vue';
 import axios from "axios";
-import {useHead} from '@vueuse/head';
-import {convertIsoDateTimeToDateString} from "../../utils/Convert.js";
+import { useHead } from '@vueuse/head';
+import { convertIsoDateTimeToDateString } from "../../utils/Convert.js";
+import FacilityCarouselOptions from "../../components/FacilityCarouselOptions.vue";
 
 export default {
     components: {
-        BaseLayout
+        BaseLayout,
+        FacilityCarousel: FacilityCarouselOptions,
     },
     data() {
         return {
@@ -89,8 +91,8 @@ export default {
                     </div>
                     <div>
                         <p class="text-4xl font-libertius-serif text-black italic">
-                            “ Terwujudnya lulusan yang beriman dan bertakwa kepada Tuhan Yang Maha Esa, berakhlak mulia,
-                            berbudaya kerja, berjiwa wirausaha dan kompetitif ”
+                            “ Mewujudkan SMK berbudaya kerja, menghasilkan lulusan profesional yang beriman dan bertakwa kepada Tuhan YME,
+                            berakhlak mulia, berkarakter unggul, dan berjiwa kompetitif. ”
                         </p>
                     </div>
                 </div>
@@ -145,59 +147,7 @@ export default {
             </div>
             <div class="grid grid-cols-1 gap-2 pl-8 pr-8">
                 <h1 class="text-4xl text-black font-bold underline">Seutas Fasilitas</h1>
-
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/KELAS.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Kelas</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/LAB.%20KOMPUTER.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Laboratorium Komputer</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/GMT.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan GMT</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/DPIB.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan DPIB</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/BKP.jpeg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan TKP</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/TEI.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan TEI</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/MEKA.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan MEKA</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/TITL.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan TITL</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/KI.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan KI</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/TKR.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan TKR</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/TP.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan TP</span>
-                    </div>
-                    <div class="relative">
-                        <img class="h-auto max-w-full aspect-[16/9] rounded-lg" src="../../../../public/assets/img/facility/bengkel/TKJ.jpg" alt="">
-                        <span class="absolute top-2 left-2 bg-black/60 text-white text-sm px-3 py-1 rounded">Ruang Praktik Jurusan TKJ</span>
-                    </div>
-                </div>
-
+                <FacilityCarousel/>
             </div>
         </template>
     </BaseLayout>
