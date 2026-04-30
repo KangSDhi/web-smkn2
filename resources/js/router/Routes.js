@@ -31,6 +31,11 @@ const routes = [
         component: ArticlePage,
     },
     {
+        path: "/kelulusan",
+        name: "Graduation Page",
+        component: () => import("../views/general/Graduation.vue")
+    },
+    {
         path: "/auth",
         name: "Login Page",
         component: AuthPage,
