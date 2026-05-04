@@ -159,7 +159,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const pdfUrl = ref('https://drive.google.com/file/d/1wrJLzEdR2VKcMyawu9e5CB0tAp_ASW8D/preview')
+const pdfUrl = ref('https://drive.google.com/file/d/1fjWEf2dfYfc-R27fARc21DrgRTL7WPCH/preview')
 </script>
 
 <style scoped>
